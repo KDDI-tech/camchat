@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ユーザー登録</title>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8;"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+<style>
+*{
+  box-sizing: border-box;
+  margin:0;
+  padding:0;
+}
+html,body{
+  width:100%;
+  height:100%;
+  background-color:rgb(222,243,102);
+}
+button, input, select, textarea {
+  font-family : inherit;
+  font-size:24px;
+  margin:10px;
+  padding:10px;
+}
+button{
+  font-size:24px;
+}
+#wrap{
+  display:flex;
+}
+</style>
+</head>
+<body>
+<div id="wTitle">
+  <div>ユーザー登録</div>
+</div>
+<div id="wrap">
+  <form action="/newuser" method="post">
+    <div><input type="text" name="username" id=""></div>
+    <div><input type="password" name="password" id=""></div>
+    <div><input type="submit" value="register"></div>
+  </form>
+</div>
+<script type="module">
+</script>
+
+</body>
+</html>

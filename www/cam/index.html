@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.webrtc.ecl.ntt.com/skyway-4.4.1.js"></script> 
+  <title>カメラ映像配信用アプリ</title>
+  <style>
+    *{margin:0;padding:0;}
+  </style>
+</head>
+<body>
+    <p style="background-color:aquamarine;">チャットカメラ</p>
+    <video id="my-video" height="" width=""  autoplay muted playsinline></video>
+    <p id="my-id"></p>
+
+</body>
+</html>
+<script type="module">
+import skywaykey from "../skywaykey.js"
+(async() => {
+  const roomName = 'toyosu-room1';
+  const peerId = 'toyosu-camera1';
+  const videoElm = document.getElementById('my-video');
+
+  let constraints = {
+      video: true
+  };
+
+  // カメラ映像取得
+  const localStream = await navigator.mediaDevices
+    .getUserMedia(constraints)
+    .catch(console.error);
+  
+  videoElm.muted = true;
+  videoElm.srcObject = localStream;
+  videoElm.playsInline = true;
+  await videoElm.play().catch(console.error);
+
+  const peer = new Peer(peerId, {
+    key: skywaykey,
+    debug: 3
+  });
+
+  peer.on("open", (id) => {
+    const room = peer.joinRoom(roomName, {mode: "sfu",stream: localStream});
+    room.once("open",()=>{
+      console.log("room open");
+    })
+    room.on("peerJoin", peerId => {
+      console.log(`[${peerId}] is join`)
+    });
+    room.on("peerLeave", peerId => {
+      console.log(`[${peerId}] was leaved`)
+    });
+    room.once("close", () => {
+      console.log(`room state is [close]`)
+    });
+  });
+
+  peer.on('error', console.error);
+})();
+</script>

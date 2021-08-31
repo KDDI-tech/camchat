@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.webrtc.ecl.ntt.com/skyway-4.4.1.js"></script> 
+    <script src="/ws/socket.io.js"></script>
+    <title>Viewer</title>
+    <style>
+        *{margin:0;padding:0;}
+        html,body{width:100%;height:100%;}
+        .btn{
+            padding:10px 20px;
+            border-radius: 5px;
+            color:#fff;
+            border:none;
+            outline: none;
+            font-size: 1.4rem;
+            cursor:pointer;
+        }
+        .btn.conn{
+            background-color: rgb(42, 124, 231);
+        }
+        .btn.disconn{
+            opacity: .6;
+            background-color: rgb(148, 59, 59);
+        }
+
+        #videoWrap{
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        #their-video{
+            height: 100%;
+            min-width: 100%;
+            min-height: 100%;
+            top: 0;
+            position: absolute;
+            background-color: #000;
+        }
+        @media (max-aspect-ratio: 8/5) {
+            #their-video{
+                transform: translateX(-50%);
+                left: 50%;
+            }
+        }
+        /* memberList css */
+        .member{
+            position: absolute;
+            top: 24px;
+            right: 0;
+            max-width: 280px;
+            max-height: 500px;
+            border:solid medium green;
+            display:flex;/*子要素の横並び*/
+            flex-direction:column;/*子要素をどの方向に並べていくか　今回は縦並び（column）*/
+            z-index: 10;
+        }
+        .member.memberlistbox{
+            position: fixed;
+            top: 0;
+            left:0;
+            max-width:280px;
+            min-height:40px;
+            /*flex-direction:column;*/
+        }
+        .memberlistid{
+            padding:5px;
+            width:100%;
+            font-size:10px;
+            font-weight:bold;
+        }
+        /* chat css */
+        .mesbox{
+            max-width:280px;
+            min-height:40px;
+            display:flex;
+            flex-direction:column;
+        }
+        .mesid{
+            padding:5px;
+            width:100%;
+            font-size:10px;
+            font-weight:bold;
+            color:yellow;
+        }
+        .mestext{
+            padding:5px;
+            width:100%;
+            font-size:16px;
+        }
+        .someone{
+            padding:10px;
+            display:flex;
+            width:100%;
+            justify-content: flex-end;
+            box-sizing: border-box;
+        }
+        .someone .mesid{
+            background-color: cyan;
+        }
+        .someone .mestext{
+            background-color: skyblue;
+        }
+        .my{
+            padding:10px;
+            display:flex;
+            width:100%;
+            justify-content: flex-start;
+            box-sizing: border-box;
+        }
+        .my .mesid{
+            background-color: deeppink;
+        }
+        .my .mestext{
+            background-color: pink;
+        }
+        #logwrap{
+            width:100%;
+            display:flex;
+            flex-direction:column;
+            justify-content: flex-start;
+        }
+        .hide{display:none;}
+    </style>
+</head>
+<body>
+    <p style="background-color:violet;">トヨスカメラ</p>
+    <button id="make-call" class="btn conn">接続</button>
+    <button id="finish" class="btn disconn">接続終了</button></p>
+    <div id="memberList" class="member">
+        <p id="memberArea"></p>
+    </div>
+    <div id="videoWrap">
+        <video id="their-video" muted autoplay playsinline></video>
+    </div>
+    <div id="chatWrap" class="hide">
+        <div id="messageWeap">
+            <input type="text" id="message">
+            <button id="send">送信</button>
+        </div>
+        <div id="logWrap"></div>
+    </div>
+
+<script type="module">
+import skywaykey from "../skywaykey.js"
+(async ()=>{
+    let localStream = null;
+    let existingCall = null;
+    const roomName = 'toyosu-room1';
+    const videoElm = document.getElementById('their-video');
+    const finishBtn = document.getElementById("finish");
+    const callBtn = document.getElementById('make-call');
+    //const memberListBtn = document.getElementById("member-list")
+    videoElm.style.display = "none";
+    finishBtn.style.display = "none";
+    //memberListBtn.style.display = "none";
+
+    const peer = new Peer({
+        key: skywaykey,
+        debug: 3
+    });
+
+    callBtn.onclick = e => {
+        e.preventDefault();
+        const call = peer.joinRoom(roomName, {mode: 'sfu', stream: localStream});
+        setupSFUCall(call);
+    };
+
+    function setupSFUCall(call){
+        //console.log(call);
+        if (existingCall) {
+            existingCall.close();
+        };
+        existingCall = call;
+
+        callBtn.style.display = "none";
+        finishBtn.style.display = "block";
+        //memberListBtn.style.display = "block"
+
+        console.log("#room-id",call.name);
+        call.on('stream', function(stream){
+            console.log("stream");
+            console.log(stream);
+            videoElm.style.display = "block";
+            videoElm.srcObject = stream;
+            videoElm.play();
+        });
+
+        call.on('peerLeave', function(peerId){
+            console.log(`${peerId} peerLeave`);
+        });
+
+        call.on('close', function(){
+            console.log("close");
+        });
+
+        // join chat
+        socket = io({transports:["websocket"],path:"/ws"});
+
+        socket.on("connect", () => {
+            console.log("socket connected :"+socket.id);
+            socket.emit("newuser",myuserid);
+        });
+
+        socket.on("disconnect", () => {
+            console.log("socket disconnected");
+        });
+
+        socket.on("join", (data) => {
+            console.log("join new client :"+data);
+            let mess = data + "が参加しました";
+            newPost(data,mess,"someone");            
+        });
+
+        socket.on("leave", (data) => {
+            console.log("leave client :"+data);
+            let mess = data + "が退出しました";
+            newPost(data,mess,"someone");
+        });
+
+        socket.on("users", (data) => {
+            console.log("connect users = "+data.length);
+            console.dir(data);
+            useridList = data;
+            newMemberList(useridList);
+        });
+
+        socket.on("message", (data) => {
+            const jobj = JSON.parse(data);
+            console.log("new message : from ["+jobj.user+"] message: "+jobj.text);
+            newPost(jobj.user,jobj.text,"someone");
+        });
+
+        //
+        chatWrap.classList.remove("hide");
+    }
+
+    // 終了処理
+    // 押された時、ビデオをミュートにしたい　または　ビデオを消したい
+    finishBtn.onclick = () => {
+        if(existingCall){
+            existingCall.close();
+            existingCall = null;
+        }
+        callBtn.style.display = "block";
+        videoElm.style.display = "none";
+        videoElm.srcObject = null;
+        finishBtn.style.display = "none";
+        newMemberList("");
+        //memberListBtn.style.display = "none";
+        // chat leave
+        logWrap.innerHTML = '';
+        chatWrap.classList.add("hide");
+        socket.disconnect();
+        socket = null;
+    };
+
+    /********************
+     *    chat
+     */
+
+    const pathArr = location.pathname.split('/');
+    const myuserid = pathArr[pathArr.length - 1];
+    let useridList;
+    
+
+    const chatWrap = document.getElementById("chatWrap");
+    const logWrap = document.getElementById("logWrap");
+    const messageWeap = document.getElementById("messageWeap");
+    const message = document.getElementById("message");
+    const sendBtn = document.getElementById("send");
+    const memberList = document.getElementById("memberList");
+    const memberArea = document.getElementById("memberArea");
+
+    var socket = null;
+    
+    let _click = (window.ontouchstart === undefined)? 'click' : 'touchend';
+    sendBtn.addEventListener(_click, onMessageSendClick, false);
+    message.addEventListener("keydown", onKeyDown, false);
+    function onKeyDown(e){
+        if(e.keyCode == 13){ // enter
+            onMessageSendClick(e);
+        }
+    }
+
+    function onMessageSendClick(e){
+        let mess = message.value
+        if(mess != ""){
+            socket.emit("message",mess);
+            newPost(myuserid,mess,"my");
+            message.value= "";
+            mess = "";
+        }
+    }
+    function newPost(id,mes,who){
+        const eIdDiv = document.createElement("div");
+        eIdDiv.classList.add("mesid");
+        eIdDiv.innerHTML = id;
+        const eTextDiv = document.createElement("div");
+        eTextDiv.classList.add("mestext");
+        eTextDiv.innerHTML = mes;
+        const eDiv = document.createElement("div");
+        eDiv.classList.add("mesbox");
+        eDiv.appendChild(eIdDiv);
+        eDiv.appendChild(eTextDiv);
+        const eWrap = document.createElement("div");
+        eWrap.classList.add(who);
+        eWrap.appendChild(eDiv);
+        logWrap.insertBefore(eWrap, logWrap.firstChild);
+    }
+    function newMemberList(id){
+        memberArea.HTML = id;
+        /*
+        const eMemberIdDiv = document.createElement("div");
+        eMemberIdDiv.classList.add("memberlistid");
+        eMemberIdDiv.innerHTML = id[i];
+        const eMemberBoxDiv = document.createElement("div");
+        eMemberBoxDiv.classList.add("memberlistbox");
+        eMemberBoxDiv.appendChild(eMemberIdDiv);//box に id を入れた（親子関係）
+        memberList.insertBefore(eMemberBoxDiv,memberList.firstChild);
+        */
+    }
+
+})();
+</script>
+</body>
+</html>
