@@ -16,36 +16,47 @@ html,body{
   height:100%;
   background-color:rgb(243,222,185);
 }
+.title{
+  padding:10px;
+}
+.title.login{
+  background-color:#7f9bff;
+}
 button, input, select, textarea {
   font-family : inherit;
   font-size:24px;
   margin:10px;
   padding:10px;
 }
+a{
+  text-decoration: none;
+  color:#000;
+}
 button{
   font-size:24px;
 }
 #wrap{
   display:flex;
+  text-align:center;
+  justify-content: center;
+}
+#wRegister{
+  text-align: center;
 }
 </style>
 </head>
 <body>
-<div id="wTitle">
-  <div>ログイン</div>
-</div>
+<div class="title login">ログイン</div>
 <div id="wrap">
   <form action="/login" method="post">
-    <div><input type="text" name="username" id=""></div>
-    <div><input type="password" name="password" id=""></div>
+    <div><input type="text" name="username" placeholder="ID" autocomplete="off"></div>
+    <div><input type="password" name="password" placeholder="Password" autocomplete="off"></div>
     <div><input type="submit" value="Login"></div>
   </form>
 </div>
 <div id="wRegister">
   <button><a href="/register">新規登録</a></button>
 </div>
-<script type="module">
-</script>
 
 </body>
 </html>

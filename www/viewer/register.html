@@ -14,7 +14,13 @@
 html,body{
   width:100%;
   height:100%;
-  background-color:rgb(222,243,102);
+  background-color:#dbe2bf;
+}
+.title{
+  padding:10px;
+}
+.title.register{
+  background-color:#ff7f7f;
 }
 button, input, select, textarea {
   font-family : inherit;
@@ -27,22 +33,22 @@ button{
 }
 #wrap{
   display:flex;
+  text-align:center;
+  justify-content: center;
+}
+#wRegister{
+  text-align: center;
 }
 </style>
 </head>
 <body>
-<div id="wTitle">
-  <div>ユーザー登録</div>
-</div>
+<div class="title register">ユーザー登録</div>
 <div id="wrap">
   <form action="/newuser" method="post">
-    <div><input type="text" name="username" id=""></div>
-    <div><input type="password" name="password" id=""></div>
+    <div><input type="text" name="username" placeholder="ID" autocomplete="off"></div>
+    <div><input type="password" name="password" placeholder="Password" autocomplete="off"></div>
     <div><input type="submit" value="register"></div>
   </form>
 </div>
-<script type="module">
-</script>
-
 </body>
 </html>

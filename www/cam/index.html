@@ -7,20 +7,24 @@
   <title>カメラ映像配信用アプリ</title>
   <style>
     *{margin:0;padding:0;}
+    .title{
+      padding:10px;
+    }
+    .title.camera{
+      background-color:aquamarine;
+    }
   </style>
 </head>
 <body>
-    <p style="background-color:aquamarine;">チャットカメラ</p>
+    <div class="title camera">チャットカメラ</div>
     <video id="my-video" height="" width=""  autoplay muted playsinline></video>
-    <p id="my-id"></p>
-
 </body>
 </html>
 <script type="module">
 import skywaykey from "../skywaykey.js"
 (async() => {
-  const roomName = 'toyosu-room1';
-  const peerId = 'toyosu-camera1';
+  const roomName = 'room_1';
+  const peerId = 'camera_1';
   const videoElm = document.getElementById('my-video');
 
   let constraints = {

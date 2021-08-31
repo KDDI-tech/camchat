@@ -1,0 +1,202 @@
+*{margin:0;padding:0;}
+html,body{width:100%;height:100%;}
+body{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    flex-direction: column;
+}
+.title{
+    background-color: violet;
+    padding:10px;
+}
+.btn{
+    padding:10px 20px;
+    border-radius: 5px;
+    color:#fff;
+    border:none;
+    outline: none;
+    font-size: 1.4rem;
+    cursor:pointer;
+}
+.btn.conn{
+    background-color: rgb(42, 124, 231);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+}
+.btn.disconn{
+    opacity: .6;
+    background-color: rgb(148, 59, 59);
+    margin: 10px 10px 0 auto;
+    display:block;
+}
+
+#videoWrap{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+#their-video{
+    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    top: 0;
+    position: absolute;
+    background-color: #000;
+}
+@media (max-aspect-ratio: 8/5) {
+    #their-video{
+        transform: translateX(-50%);
+        left: 50%;
+    }
+}
+/* memberList css */
+#memberList{
+    position: absolute;
+    top: 54px;
+    height: 54px;
+    left: 0;
+    width: calc(100% - 160px);
+    overflow-y: scroll;
+}
+#memberArea{
+    height:100%;
+    width:1000px;
+}
+.joinMember{
+    background-color: rgba(0,0,0,.6);
+    color: #fff;
+    font-size: 80%;
+    padding: 2px 8px;
+    border-radius: 90px;
+    margin: 2px;
+    display: inline-block;
+}
+#messageWeap{
+    display: flex;
+}
+#message{
+    padding:10px;
+    margin:10px 10px 0;
+    font-size:110%;
+    flex:1;
+    outline: none;
+}
+#send{
+    padding: 7px 10px;
+    margin: 10px 10px 0 0;
+    font-size: 110%;
+    min-width: 130px;
+}
+/* chat css */
+.mesbox{
+    max-width:280px;
+    min-height:40px;
+    display:flex;
+    flex-direction:column;
+    color:#fff;
+}
+.mesid{
+    padding:5px;
+    width:100%;
+    font-size:10px;
+    font-weight:bold;
+}
+.mestext{
+    padding:5px;
+    width:100%;
+    font-size:16px;
+}
+.someone,
+.my,
+.system{
+    padding:10px;
+    display:flex;
+    /*width:100%;*/
+    justify-content: flex-end;
+    box-sizing: border-box;
+}
+.someone .mesid,
+.my .mesid,
+.system .mesid{
+    border-radius:5px 5px 0 0;
+}
+.someone .mestext,
+.my .mestext,
+.system .mestext{
+    border-radius:0 0 5px 5px;
+    position: relative;
+}
+.my .mestext:before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -20px;
+    margin-top: -10px;
+    border: 10px solid transparent;
+    border-left: 10px solid #072db3;
+    z-index: 0;
+}
+.someone .mestext:before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    margin-top: -10px;
+    border: 10px solid transparent;
+    border-right: 10px solid #ff79b1;
+    z-index: 0;
+}
+.my{
+    margin-right: 20px;
+}
+.my .mesid{
+    background-color: #081e6d;
+}
+.my .mestext{
+    background-color: #072db3;
+}
+.someone{
+    justify-content: flex-start;
+    margin-left: 10px;
+}
+.someone .mesid{
+    background-color: #ca1576;
+}
+.someone .mestext{
+    background-color: #ff79b1;
+}
+.system{
+    justify-content: center;
+}
+.system .mesid{
+    background-color: #333;
+    color:#fff;
+}
+.system .mestext{
+    background-color: #555;
+    color:#fff;
+}
+#chatWrap{
+    /*
+    flex: 1; 
+    position: relative;
+    */
+    overflow: hidden;
+    padding-bottom: 65px;
+}
+#logWrap{
+    overflow: auto;
+    max-height: 100%;
+    width: 100%;
+    height: 100%;
+    margin-top:10px
+}
+.hide{display:none !important;}
