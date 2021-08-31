@@ -1,6 +1,6 @@
 module.exports = {
-  "basicAuth":{"id":"ktec","pass":"0077"},
+  "basicAuth":{"id":"ここにユーザー名を書く","pass":"ここにパスワードを書く"},
   "ip":"127.0.0.1",
-  "port":4000,
-  "secret":"test app"
+  "port":ポート番号,
+  "secret":"適当な文字列"
 }
