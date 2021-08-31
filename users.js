@@ -3,5 +3,55 @@ module.exports = {
         "id":"guest",
         "name":"ゲスト",
         "pass":"dliqsheo"
+    },
+    "oota":{
+        "id":"oota",
+        "name":"大田",
+        "pass":"1234"
+    },
+    "kodama":{
+        "id":"kodama",
+        "name":"小玉",
+        "pass":"abcd"
+    },
+    "iwadate":{
+        "id":"iwadate",
+        "name":"岩楯",
+        "pass":"0000"
+    },
+    "nakamura":{
+        "id":"nakamura",
+        "name":"中村",
+        "pass":"3333"
+    },
+    "sh-nakagawa":{
+        "id":"sh-nakagawa",
+        "name":"中川",
+        "pass":"ktec0077"
+    },
+    "er-harada":{
+        "id":"er-harada",
+        "name":"原田",
+        "pass":"ktec0077"
+    },
+    "ak-sakamoto":{
+        "id":"ak-sakamoto",
+        "name":"坂本",
+        "pass":"ktec0077"
+    },
+    "ry-nagashima":{
+        "id":"ry-nagashima",
+        "name":"永島",
+        "pass":"ktec0077"
+    },
+    "at-mikasa":{
+        "id":"at-mikasa",
+        "name":"三笠",
+        "pass":"ktec0077"
+    },
+    "yk-koyama":{
+        "id":"yk-koyama",
+        "name":"小山",
+        "pass":"ktec0077"
     }
 }
