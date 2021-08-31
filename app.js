@@ -10,17 +10,14 @@ const fsm = require('fs');
 const path = require('path');
 const passport = require('passport');
 const passportLocal = require('passport-local');
-const bodyParser = require('body-parser');
 const session = require('express-session');
 const express = require('express');
 const auth = require('basic-auth');
-const exec = require('child_process').exec;
 const cors = require('cors');　
 const ejs = require('ejs');　
 
 let users = require('./users.js');
 let config = require('./config.js');
-let data = 0;
 
 const PORTNUMBER = config.port;
 const listenIp = config.ip;
@@ -29,7 +26,6 @@ const LocalStrategy = passportLocal.Strategy;
 const fs = fsm.promises;
 
 let webServer;
-let socketServer;
 const app = express();
 
 app.use(session({
