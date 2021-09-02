@@ -58,14 +58,6 @@ export default 'ここにSkywayで発行されたAPIキーをコピーする';
 
 設定ファイルを編集後、repoのディレクトリをカレントにして下記コマンドを入力してください。
 
-#### forever を導入 (未導入の場合のみ)
-
-```
-npm i forever -g
-```
-
-#### パッケージインストールと起動
-
 ```
 npm i
 npm start
