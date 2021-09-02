@@ -8,7 +8,7 @@ body{
     flex-direction: column;
 }
 .title{
-    background-color: violet;
+    background-color: #a5bdff;
     padding:10px;
 }
 .btn{
@@ -68,7 +68,7 @@ body{
 }
 #memberArea{
     height:100%;
-    width:1000px;
+    max-width:1000px;
 }
 .joinMember{
     background-color: rgba(0,0,0,.6);
@@ -106,7 +106,7 @@ body{
 .mesid{
     padding:5px;
     width:100%;
-    font-size:10px;
+    font-size:90%;
     font-weight:bold;
 }
 .mestext{
@@ -133,6 +133,7 @@ body{
 .system .mestext{
     border-radius:0 0 5px 5px;
     position: relative;
+    word-break: break-all;
 }
 .my .mestext:before{
     content: "";
@@ -151,8 +152,9 @@ body{
     left: -20px;
     margin-top: -10px;
     border: 10px solid transparent;
-    border-right: 10px solid #ff79b1;
+    border-right: 10px solid #777;
     z-index: 0;
+    background-color:transparent !important;
 }
 .my{
     margin-right: 20px;
@@ -168,10 +170,10 @@ body{
     margin-left: 10px;
 }
 .someone .mesid{
-    background-color: #ca1576;
+    background-color: #000;
 }
 .someone .mestext{
-    background-color: #ff79b1;
+    background-color: #777;
 }
 .system{
     justify-content: center;
@@ -184,6 +186,7 @@ body{
     background-color: #555;
     color:#fff;
 }
+
 #chatWrap{
     /*
     flex: 1; 
@@ -200,3 +203,76 @@ body{
     margin-top:10px
 }
 .hide{display:none !important;}
+
+/***************************
+ * chat baloon color
+ */
+.someone.color1 .mestext,
+.someone.color1 .mestext:before{
+    background-color:#2e7c8e;
+    border-right-color:#2e7c8e;
+}
+
+.someone.color2 .mestext,
+.someone.color2 .mestext:before{
+    background-color:olivedrab;
+    border-right-color:olivedrab;
+}
+
+.someone.color3 .mestext,
+.someone.color3 .mestext:before{
+    background-color:#ca4343;
+    border-right-color:#ca4343;
+}
+
+.someone.color4 .mestext,
+.someone.color4 .mestext:before{
+    background-color:#ff8686;
+    border-right-color:#ff8686;
+}
+
+.someone.color5 .mestext,
+.someone.color5 .mestext:before{
+    background-color:#ffb124;
+    border-right-color:#ffb124;
+    color:#000;
+}
+
+.someone.color5 .mestext,
+.someone.color5 .mestext:before{
+    background-color:#fcff24;
+    border-right-color:#fcff24;
+    color:#000;
+}
+
+.someone.color6 .mestext,
+.someone.color6 .mestext:before{
+    background-color:#8dff24;
+    border-right-color:#8dff24;
+    color:#000;
+}
+
+.someone.color7 .mestext,
+.someone.color7 .mestext:before{
+    background-color:#3f9af7;
+    border-right-color:#3f9af7;
+    color:#000;
+}
+
+.someone.color8 .mestext,
+.someone.color8 .mestext:before{
+    background-color:#643ff7;
+    border-right-color:#643ff7;
+}
+
+.someone.color9 .mestext,
+.someone.color9 .mestext:before{
+    background-color:#c93ff7;
+    border-right-color:#c93ff7;
+}
+
+.someone.color10 .mestext,
+.someone.color10 .mestext:before{
+    background-color:#9e630b;
+    border-right-color:#9e630b;
+}
