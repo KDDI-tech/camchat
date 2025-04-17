@@ -1,3 +1,6 @@
+This repo has been moved to the KDDI Technology organization. It will no longer be updated here. For the latest information, please go to the following URL:    
+[https://github.com/KDDI-Technology/camchat](https://github.com/KDDI-Technology/camchat)    
+
 # camchat
 
 カメラ映像を見ながらチャットを楽しむシステムのプロトタイプです。
